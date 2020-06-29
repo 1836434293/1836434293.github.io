@@ -2,25 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>11111</title>
-    <style>
-        div{
-            width: 100%;
-            height: 500px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    <meta name="keyword" content="爱心跳动">
+    <meta name="description" content="爱心跳动">
+    <title>爱心跳动特效</title>
+    <style type="text/css">
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background-color: #000000;
+        }
+        .box{
+            width: 400px;
+            height: 400px;
+            margin-top: 60px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: move 1s infinite alternate;
+            /*动画名称 运动时间 运动次数infinite表示无限次 alternate往返效果相同*/
+        }
+        @keyframes move {
+            100%{
+                transform: scale(1.2);/*变大1.2倍*/
+            }
+        }
+        .box .left, .box .right{
+            width: 150px;
+            height: 240px;
+            background-color: red;
+            border-radius: 75px 75px 0 0;
+            float: left;
+            position: relative;/*相对大div定位*/
+            left: 153px;
+            box-shadow: 0 0 40px red;/*设置阴影效果，其值分别表示水平偏移量，竖直偏移量，阴影大小，颜色*/
+        }
+        .box .left{
+             transform: rotate(45deg) ;
+         }
+        .box .right{
+            transform: rotate(-45deg);
+            margin-left: -213px;
         }
         p{
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-size: 50px;
+            text-align: center;
+            color: red;
         }
     </style>
 </head>
 <body>
-    <div>222222222222</div>
-    <p>222222222</p>
+<div class="box">
+    <div class="left"></div>
+    <div class="right"></div>
+</div>
+<p><span>2020&nbsp;Fighting!</span></p>
+
 </body>
 </html>
