@@ -3,13 +3,12 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>瑶瑶不甜</title>
-    <embed src="./images/yaoyao.mp3" hidden="true" autostart="true" loop="true">
     <style type="text/css">
         *{padding: 0;
         margin: 0;}
         body,html{height:100%;}
         /* 背景图片在这里设置 */
-        body{background: url("images/5.jpg") no-repeat center top;background-size: cover;}
+        /* body{background: url("images/5.jpg") no-repeat center top;background-size: cover;} */
         #box{width: 280px;
             height: 400px;
             position: fixed;
@@ -59,8 +58,8 @@
     </style>
 </head>
 	<body>
-        <audio style="display: none;" id="audio" src="./aa.mp3" autoplay="autoplay" controls="controls"></audio>
-		<div id="box">
+        <audio style="display: none;" id="audio" src="./images/yaoyao.mp3" autoplay="autoplay" controls="controls"></audio>
+		<!-- <div id="box">
 		    <img src="images/1.jpg">
 		    <img src="images/9.jpg">
 		    <img src="images/3.jpg">
@@ -71,26 +70,20 @@
 		    <img src="images/8.jpg">
 		    <img src="images/9.jpg">
 		    <img src="images/4.jpg">
-		</div>
+		</div> -->
 	</body>
+    <script src="./images/jquery-3.4.1.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function audioAutoPlay() {
-                var audio = document.getElementById('audio');
-                    audio.play();
-                document.addEventListener("WeixinJSBridgeReady", function () {
-                    audio.play();
+        function audioAutoPlay(id){
+            var audio = document.getElementById(id);
+            audio.play();
+            document.addEventListener("WeixinJSBridgeReady", function () {
+            audio.play();
                 }, false);
-            }
-            audioAutoPlay();
-        });
-        //--创建触摸监听，当浏览器打开页面时，触摸屏幕触发事件，进行音频播放
-        document.addEventListener('touchstart', function () {
-            function audioAutoPlay() {
-                var audio = document.getElementById('audio');
-                    audio.play();
-            }
-            audioAutoPlay();
-        });
+            document.addEventListener('YixinJSBridgeReady', function() {
+            audio.play();
+                }, false);
+        }
+        audioAutoPlay('audio');//xxx是你audio标签的id
     </script>
 </html>
