@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>点击+拖拽翻页 | 书本居中</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    touch-action: none;
+    pointer-events: auto;
+  }
+  body {
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  #book-container {
+    perspective: 2000px; 
+    perspective-origin: center center;
+    margin: 0 auto;
+    position: relative;
+    width: 80vw; 
+  }
+  #book {
+    width: 80vw;
+    height: 50vw;
+    cursor: grab;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    left: 0 !important;
+  }
+  /* 新增：点击翻页的遮罩层（不影响视觉，仅用于监听点击） */
+  .page-click-area {
+    position: absolute;
+    top: 10%;
+    width: 5vw;
+    height: 80%;
+    z-index: 20; /* 高于书页，低于拖拽事件 */
+    opacity: 0; /* 透明，不影响视觉 */
+    cursor: pointer;
+  }
+  .click-left {
+    left: 0;
+  }
+  .click-right {
+    right: 0;
+  }
+  .page {
+    background: #fff;
+    /* background-image: url('https://picsum.photos/id/106/800/500'); */
+    background-size: 100% 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5vw;
+    color: #333;
+    font-weight: bold;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  }
+  .cover {
+    background: #c8102e;
+    color: white;
+    font-size: 3vw;
+  }
+  .turn-page {
+    border-radius: 0 !important;
+  }
+</style>
+</head>
+<body>
+
+<div id="book-container">
+  <!-- 新增：点击翻页的左右区域遮罩 -->
+  <div class="page-click-area click-left"></div>
+  <div class="page-click-area click-right"></div>
+
+  <div id="book">
+    <div class="page cover">画册封面</div>
+    <div class="page">第1页（左） 你个傻逼</div>
+    <div class="page">第2页（右） 不会吧</div>
+    <div class="page">第3页（左） 哥就是这么牛逼</div>
+    <div class="page">第4页（右） 500 块让你买断</div>
+    <div class="page cover">画册封底</div>
+  </div>
+</div>
+
+<script src="./jquery.min.js"></script>
+<script src="./turn.js"></script>
+
+<script>
+$(document).ready(function() {
+  // 初始化翻书插件
+  const book = $("#book").turn({
+    width: '80vw',
+    height: '50vw',
+    autoCenter: true,
+    display: "double",      
+    duration: 800,           
+    gradients: true,         
+    elevation: 50,           
+    turnCorners: "bl,br,tl,tr",
+    acceleration: true,      
+    when: {
+      turned: function(e, page) {
+        console.log("当前页码：", page);
+      },
+      start: function(e, page) {
+        $(this).css("cursor", "grabbing");
+      },
+      end: function(e, page) {
+        $(this).css("cursor", "grab");
+      }
+    }
+  });
+
+  // 核心：点击左侧区域 → 上一页
+  $(".click-left").on("click", function(e) {
+    e.preventDefault();
+    // turn('previous')：Turn.js内置的上一页方法
+    book.turn('previous');
+  });
+
+  // 核心：点击右侧区域 → 下一页
+  $(".click-right").on("click", function(e) {
+    e.preventDefault();
+    // turn('next')：Turn.js内置的下一页方法
+    book.turn('next');
+  });
+
+  // 保留原有拖拽事件
+  $("#book").on("mousedown touchstart", function(e) {
+    e.preventDefault();
+  });
+});
+</script>
+</body>
+</html>
